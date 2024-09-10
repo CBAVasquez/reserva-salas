@@ -91,7 +91,7 @@ const Reserva = () => {
 
         <div className="form-group">
           <label htmlFor="event_description">Descripción del evento:</label>
-          <textarea id="event_description" name="event_description" value={formData.event_description} onChange={handleChange} rows="3"></textarea>
+          <textarea className='descripcion' placeholder='Cumpleaños, navidades, etc' id="event_description" name="event_description" value={formData.event_description} onChange={handleChange} rows="3"></textarea>
         </div>
 
         <div className="form-group">
