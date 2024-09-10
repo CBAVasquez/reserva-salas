@@ -17,6 +17,7 @@ const Reserva = () => {
     num_people: 1,
   });
 
+  console.log()
   const [confirmation, setConfirmation] = useState('');
   const [error, setError] = useState('');
 
