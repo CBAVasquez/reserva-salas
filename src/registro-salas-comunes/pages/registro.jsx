@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const Registro = () => {
   const [userData, setUserData] = useState({
-    username: '',
+    fullName: '',
     email: '',
-    password: '',
-    confirmPassword: '',
+    phone: '',
+    departmentNumber: '',
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -20,10 +20,13 @@ const Registro = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (userData.password !== userData.confirmPassword) {
-      setError('Las contraseñas no coinciden.');
+    
+    // Validación simple de campos vacíos
+    if (!userData.fullName || !userData.email || !userData.phone || !userData.departmentNumber) {
+      setError('Por favor, complete todos los campos.');
       return;
     }
+
     axios.post('http://localhost:3001/register', userData)
       .then((response) => {
         setSuccess('Registro exitoso.');
@@ -43,12 +46,12 @@ const Registro = () => {
       {success && <p className="success-message">{success}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Nombre completo:</label>
+          <label htmlFor="fullName">Nombre completo:</label>
           <input
             type="text"
-            id="username"
-            name="username"
-            value={userData.username}
+            id="fullName"
+            name="fullName"
+            value={userData.fullName}
             onChange={handleChange}
             required
           />
@@ -67,24 +70,24 @@ const Registro = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Contraseña:</label>
+          <label htmlFor="phone">Teléfono:</label>
           <input
-            type="password"
-            id="password"
-            name="password"
-            value={userData.password}
+            type="text"
+            id="phone"
+            name="phone"
+            value={userData.phone}
             onChange={handleChange}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="confirmPassword">Confirmar contraseña:</label>
+          <label htmlFor="departmentNumber">Número de departamento:</label>
           <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={userData.confirmPassword}
+            type="text"
+            id="departmentNumber"
+            name="departmentNumber"
+            value={userData.departmentNumber}
             onChange={handleChange}
             required
           />
@@ -97,4 +100,3 @@ const Registro = () => {
 };
 
 export default Registro;
-

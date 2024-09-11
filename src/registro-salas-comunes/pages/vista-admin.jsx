@@ -37,20 +37,25 @@ const VistaAdmin = () => {
       {success && <p className="success-message">{success}</p>}
       <form onSubmit={manejarSubmit} className="admin-form">
         <div className="form-group">
-          <label htmlFor="lugar">Nombre del Lugar:</label>
+          <label htmlFor="lugar">Añade lugar:</label>
           <input
             type="text"
             id="lugar"
+            name="lugar"
             value={lugar}
             onChange={(e) => setLugar(e.target.value)}
+            required
           />
         </div>
         <div className="form-group">
           <label htmlFor="descripcion">Descripción:</label>
           <textarea
             id="descripcion"
+            name="descripcion"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
+            rows="4"
+            required
           />
         </div>
         <button type="submit" className="submit-button">Añadir Lugar</button>

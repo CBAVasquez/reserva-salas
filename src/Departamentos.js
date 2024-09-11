@@ -28,7 +28,7 @@ function Departamentos() {
         <Routes>
           <Route path="/reserva-salas" element={<Reserva />} />
           <Route path="/vista-admin" element={<VistaAdmin />} />
-          <Route path="/registro" element={<Registro/>} />
+          <Route path="/" element={<Registro/>} />
         </Routes>
       </div>
     </Router>
