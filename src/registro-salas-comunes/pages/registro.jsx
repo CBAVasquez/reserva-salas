@@ -27,7 +27,7 @@ const Registro = () => {
       return;
     }
 
-    axios.post('http://localhost:3001/register', userData)
+    axios.post('http://localhost:3000/register', userData)
       .then((response) => {
         setSuccess('Registro exitoso.');
         setError('');

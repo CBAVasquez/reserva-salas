@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import "../styles/admin.css"; // Archivo CSS donde estarán los estilos
+import axios from "axios";
 
 const VistaAdmin = () => {
-  const [lugar, setLugar] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [lugar, setLugar] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [dataReserva, setDataReserva] = useState([]);
+
+  const obtenerReservas = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:3000/reserva/all");
+      setDataReserva(data); // Asegúrate de que data sea un array
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    obtenerReservas();
+  }, []);
 
   const usuarioTienePermiso = () => {
     return true; // Cambia a false para probar sin permisos
@@ -15,18 +31,32 @@ const VistaAdmin = () => {
     e.preventDefault();
 
     if (!usuarioTienePermiso()) {
-      setError('No tienes permisos para añadir lugares.');
+      setError("No tienes permisos para añadir lugares.");
       return;
     }
 
     if (lugar && descripcion) {
-      console.log('Añadir lugar:', lugar, descripcion);
-      setError('');
-      setSuccess('Lugar añadido correctamente.');
-      setLugar('');
-      setDescripcion('');
+      console.log("Añadir lugar:", lugar, descripcion);
+      setError("");
+      setSuccess("Lugar añadido correctamente.");
+      setLugar("");
+      setDescripcion("");
     } else {
-      setError('Todos los campos son obligatorios.');
+      setError("Todos los campos son obligatorios.");
+    }
+  };
+
+   // Función para aceptar reserva
+   const aceptarReserva = async (id_reserva) => {
+    try {
+      await axios.patch(`http://localhost:3000/reserva/${id_reserva}/estado`, {
+        estado: "Aceptado", 
+      });
+      setSuccess(`Reserva ${id_reserva} aceptada.`); // Mensaje de éxito
+      obtenerReservas(); // Actualiza la lista de reservas
+    } catch (error) {
+      console.log(error);
+      setError("Error al aceptar la reserva."); // Manejo de error
     }
   };
 
@@ -58,8 +88,23 @@ const VistaAdmin = () => {
             required
           />
         </div>
-        <button type="submit" className="submit-button">Añadir Lugar</button>
+        <button type="submit" className="submit-button">
+          Añadir Lugar
+        </button>
       </form>
+      <div>
+        {dataReserva.length > 0 ? (
+          dataReserva.map((reserva) => (
+            <div key={reserva.id_reserva}> {/* Usa el id_reserva como clave */}
+              <h1>{reserva.descrip_evento}</h1>
+              <h1>{reserva.estado}</h1>
+              <button onClick={() => aceptarReserva(reserva.id_reserva)}>Aceptar reserva</button> {/* Llama a aceptarReserva */}
+            </div>
+          ))
+        ) : (
+          <p>Cargando reservas...</p>
+        )}
+      </div>
     </div>
   );
 };

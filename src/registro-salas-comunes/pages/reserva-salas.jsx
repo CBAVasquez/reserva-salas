@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Importar axios
 import '../styles/reserva.css'; // Estilos separados
 
 const Reserva = () => {
@@ -10,14 +11,15 @@ const Reserva = () => {
   ]);
 
   const [formData, setFormData] = useState({
-    space_id: '',
-    reservation_date: '',
-    start_time: '',
-    event_description: '',
-    num_people: 1,
+    id_usuario: 1, // Suponiendo que ya tienes un ID de usuario
+    id_espacio: '',
+    fecha_reserva: '',
+    tiempo_ini: '',
+    tiempo_fin: '',
+    descrip_evento: '',
+    num_gente: 1,
   });
 
-  console.log()
   const [confirmation, setConfirmation] = useState('');
   const [error, setError] = useState('');
 
@@ -35,22 +37,42 @@ const Reserva = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     // Validar si se seleccionó un bloque de tiempo
-    if (!formData.start_time) {
+    if (!formData.tiempo_ini) {
       setError('Debes seleccionar un bloque de tiempo.');
       return;
     }
 
-    setConfirmation('Reserva realizada con éxito');
-    setError('');
+    // Determinar tiempo_ini y tiempo_fin según el bloque de tiempo seleccionado
+    const selectedBlock = timeBlocks.find(block => block.start === formData.tiempo_ini);
+    if (selectedBlock) {
+      formData.tiempo_ini = selectedBlock.start;
+      formData.tiempo_fin = selectedBlock.end;
+    }
+
+    try {
+      // Enviar datos al backend
+      const response = await axios.post('http://localhost:3000/reserva/create', formData);
+      console.log('Reserva creada:', response.data);
+      setConfirmation('Reserva realizada con éxito');
+      setError('');
+    } catch (err) {
+      console.error('Error al crear la reserva:', err);
+      setError('Error al realizar la reserva. Intenta de nuevo.');
+    }
+
+    // Reiniciar el formulario
     setFormData({
-      space_id: '',
-      reservation_date: '',
-      start_time: '',
-      event_description: '',
-      num_people: 1,
+      id_usuario: 1, // Volver a establecer el ID de usuario si es necesario
+      id_espacio: '',
+      fecha_reserva: '',
+      tiempo_ini: '',
+      tiempo_fin: '',
+      descrip_evento: '',
+      num_gente: 1,
     });
   };
 
@@ -61,8 +83,8 @@ const Reserva = () => {
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="space_id">Espacio:</label>
-          <select id="space_id" name="space_id" value={formData.space_id} onChange={handleChange} required>
+          <label htmlFor="id_espacio">Espacio:</label>
+          <select id="id_espacio" name="id_espacio" value={formData.id_espacio} onChange={handleChange} required>
             <option value="">Selecciona un espacio...</option>
             {spaces.map((space) => (
               <option key={space.space_id} value={space.space_id}>
@@ -73,13 +95,13 @@ const Reserva = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="reservation_date">Fecha:</label>
-          <input type="date" id="reservation_date" name="reservation_date" value={formData.reservation_date} onChange={handleChange} required />
+          <label htmlFor="fecha_reserva">Fecha:</label>
+          <input type="date" id="fecha_reserva" name="fecha_reserva" value={formData.fecha_reserva} onChange={handleChange} required />
         </div>
 
         <div className="form-group">
-          <label htmlFor="start_time">Bloque de tiempo:</label>
-          <select id="start_time" name="start_time" value={formData.start_time} onChange={handleChange} required>
+          <label htmlFor="tiempo_ini">Bloque de tiempo:</label>
+          <select id="tiempo_ini" name="tiempo_ini" value={formData.tiempo_ini} onChange={handleChange} required>
             <option value="">Selecciona un bloque...</option>
             {timeBlocks.map((block, index) => (
               <option key={index} value={block.start}>
@@ -90,13 +112,13 @@ const Reserva = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="event_description">Descripción del evento:</label>
-          <textarea className='descripcion' placeholder='Cumpleaños, navidades, etc' id="event_description" name="event_description" value={formData.event_description} onChange={handleChange} rows="3"></textarea>
+          <label htmlFor="descrip_evento">Descripción del evento:</label>
+          <textarea className='descripcion' placeholder='Cumpleaños, navidades, etc' id="descrip_evento" name="descrip_evento" value={formData.descrip_evento} onChange={handleChange} rows="3"></textarea>
         </div>
 
         <div className="form-group">
-          <label htmlFor="num_people">Número de personas:</label>
-          <input type="number" id="num_people" name="num_people" value={formData.num_people} onChange={handleChange} min="1" max="100" required />
+          <label htmlFor="num_gente">Número de personas:</label>
+          <input type="number" id="num_gente" name="num_gente" value={formData.num_gente} onChange={handleChange} min="1" max="100" required />
         </div>
 
         <button type="submit" className="submit-button">Reservar</button>
