@@ -1,5 +1,5 @@
 .admin-container {
-    max-width: 600px; /* Ancho máximo del formulario */
+    max-width: 800px; /* Ancho máximo del formulario */
     margin: 0 auto; /* Centra el contenedor horizontalmente */
     padding: 2rem;
     background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
@@ -60,5 +60,44 @@
   
   .success-message {
     color: green;
+  }
+  
+  .reserva-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .reserva-table th,
+  .reserva-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .reserva-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .reserva-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .reserva-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  .submit-button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
   }
   

@@ -27,8 +27,14 @@ const Registro = () => {
       setError('Por favor, complete todos los campos.');
       return;
     }
-
-    axios.post('http://localhost:3001/register', userData)
+  
+    // Convertir depto a número antes de enviar
+    const datosAEnviar = {
+      ...userData,
+      depto: parseInt(userData.depto, 10) // Convertir depto a un número entero
+    };
+  
+    axios.post('http://localhost:3000/usuario/create', datosAEnviar)
       .then((response) => {
         setSuccess('Registro exitoso.');
         setError('');
@@ -39,6 +45,7 @@ const Registro = () => {
         setSuccess('');
       });
   };
+  
 
   return (
     <div>
