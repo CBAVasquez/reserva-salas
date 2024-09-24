@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const Registro = () => {
   const [userData, setUserData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    departmentNumber: '',
+    nombre: '',
+    correo: '',
+    telefono: '',
+    depto: '',
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -22,12 +22,18 @@ const Registro = () => {
     e.preventDefault();
     
     // Validación simple de campos vacíos
-    if (!userData.fullName || !userData.email || !userData.phone || !userData.departmentNumber) {
+    if (!userData.nombre || !userData.correo || !userData.telefono || !userData.depto) {
       setError('Por favor, complete todos los campos.');
       return;
     }
-
-    axios.post('http://localhost:3000/register', userData)
+  
+    // Convertir depto a número antes de enviar
+    const datosAEnviar = {
+      ...userData,
+      depto: parseInt(userData.depto, 10) // Convertir depto a un número entero
+    };
+  
+    axios.post('http://localhost:3000/usuario/create', datosAEnviar)
       .then((response) => {
         setSuccess('Registro exitoso.');
         setError('');
@@ -38,6 +44,7 @@ const Registro = () => {
         setSuccess('');
       });
   };
+  
 
   return (
     <div className="form-container">
@@ -46,48 +53,48 @@ const Registro = () => {
       {success && <p className="success-message">{success}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="fullName">Nombre completo:</label>
+          <label htmlFor="nombre">Nombre completo:</label>
           <input
             type="text"
-            id="fullName"
-            name="fullName"
-            value={userData.fullName}
+            id="nombre"
+            name="nombre"
+            value={userData.nombre}
             onChange={handleChange}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="email">Correo electrónico:</label>
+          <label htmlFor="correo">Correo electrónico:</label>
           <input
             type="email"
-            id="email"
-            name="email"
-            value={userData.email}
+            id="correo"
+            name="correo"
+            value={userData.correo}
             onChange={handleChange}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="phone">Teléfono:</label>
+          <label htmlFor="telefono">Teléfono:</label>
           <input
             type="text"
-            id="phone"
-            name="phone"
-            value={userData.phone}
+            id="telefono"
+            name="telefono"
+            value={userData.telefono}
             onChange={handleChange}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="departmentNumber">Número de departamento:</label>
+          <label htmlFor="depto">Número de departamento:</label>
           <input
             type="text"
-            id="departmentNumber"
-            name="departmentNumber"
-            value={userData.departmentNumber}
+            id="depto"
+            name="depto"
+            value={userData.depto}
             onChange={handleChange}
             required
           />
