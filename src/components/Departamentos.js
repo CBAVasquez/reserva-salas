@@ -16,9 +16,9 @@
 
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Reserva from "./registro-salas-comunes/pages/reserva-salas";
-import VistaAdmin from "./registro-salas-comunes/pages/vista-admin"; // Asegúrate de que la ruta sea correcta
-import Registro from "./registro-salas-comunes/pages/registro";
+import Reserva from "../registro-salas-comunes/pages/reserva-salas";
+import VistaAdmin from "../registro-salas-comunes/pages/vista-admin"; // Asegúrate de que la ruta sea correcta
+import Registro from "../registro-salas-comunes/pages/registro";
 
 function Departamentos() {
   return (

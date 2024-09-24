@@ -1,13 +1,95 @@
-body {
+/* Estilos generales para el cuerpo */
+html, body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Evita el scroll en la página */
+  font-family: Arial, sans-serif; /* Establece la fuente global */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Fondo del body */
+body {
+  background-image: url('../images/area2.png'); /* Imagen de fondo */
+  background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+  background-position: center; /* Centra la imagen */
+  background-attachment: fixed; /* Fija el fondo para que no se mueva con el scroll */
+  background-repeat: no-repeat; /* Evita la repetición de la imagen */
+}
+
+/* Contenedor del formulario */
+.form-container {
+  max-width: 600px; /* Ancho máximo del formulario */
+  margin: 2rem auto; /* Centra el contenedor horizontalmente */
+  padding: 2rem; /* Espaciado interno */
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efecto de profundidad */
+}
+
+/* Estilo del encabezado */
+h1 {
+  text-align: center; /* Centra el texto */
+  color: #333; /* Color del texto */
+  margin-bottom: 1.5rem; /* Espaciado inferior */
+}
+
+/* Estilos para grupos de formulario */
+.form-group {
+  margin-bottom: 1rem; /* Espaciado entre grupos */
+}
+
+/* Estilo para etiquetas */
+label {
+  display: block; /* Muestra la etiqueta como un bloque */
+  font-weight: bold; /* Negrita */
+  margin-bottom: 0.5rem; /* Espaciado inferior */
+  color: #555; /* Color de la etiqueta */
+}
+
+/* Estilos para inputs y selects */
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+  width: 100%; /* Ancho completo */
+  padding: 0.75rem; /* Espaciado interno */
+  border: 1px solid #ccc; /* Borde suave */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 1rem; /* Tamaño de fuente */
+}
+
+/* Estilo para el botón */
+button {
+  display: block; /* Muestra el botón como un bloque */
+  width: 100%; /* Ancho completo */
+  padding: 0.75rem; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  background-color: #28a745; /* Color de fondo verde */
+  color: white; /* Color del texto */
+  font-size: 1rem; /* Tamaño de fuente */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+
+/* Efecto hover del botón */
+button:hover {
+  background-color: #218838; /* Color de fondo más oscuro al pasar el ratón */
+}
+
+/* Mensajes de confirmación y error */
+.confirmation-message {
+  color: #28a745; /* Color verde para mensajes de éxito */
+  font-weight: bold; /* Negrita */
+  text-align: center; /* Centra el texto */
+  margin-bottom: 1rem; /* Espaciado inferior */
+}
+
+.error-message {
+  color: #dc3545; /* Color rojo para mensajes de error */
+  font-weight: bold; /* Negrita */
+  text-align: center; /* Centra el texto */
+  margin-bottom: 1rem; /* Espaciado inferior */
 }

@@ -1,65 +1,55 @@
-import React, { useState } from 'react';
-import "../styles/admin.css"; // Archivo CSS donde estarán los estilos
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 
 const VistaAdmin = () => {
   const [lugar, setLugar] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [salas, setSalas] = useState([]);
 
-  const usuarioTienePermiso = () => {
-    return true; // Cambia a false para probar sin permisos
-  };
+  useEffect(() => {
+    const fetchSalas = async () => {
+      try {
+        const response = await axios.get('/api/salas');
+        setSalas(response.data);
+      } catch (error) {
+        console.error('Error al obtener las salas:', error);
+      }
+    };
+    fetchSalas();
+  }, []);
 
-  const manejarSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!usuarioTienePermiso()) {
-      setError('No tienes permisos para añadir lugares.');
-      return;
-    }
-
-    if (lugar && descripcion) {
-      console.log('Añadir lugar:', lugar, descripcion);
-      setError('');
-      setSuccess('Lugar añadido correctamente.');
-      setLugar('');
-      setDescripcion('');
-    } else {
-      setError('Todos los campos son obligatorios.');
+    try {
+      await axios.post('/api/salas', { lugar });
+      setLugar(''); // Limpiar el input después de enviar
+      // Re-fetch the salas after adding a new one
+      const response = await axios.get('/api/salas');
+      setSalas(response.data);
+    } catch (error) {
+      console.error('Error al agregar el lugar:', error);
     }
   };
 
   return (
-    <div className="admin-container">
-      <h1>Vista Admin</h1>
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
-      <form onSubmit={manejarSubmit} className="admin-form">
-        <div className="form-group">
-          <label htmlFor="lugar">Añade lugar:</label>
-          <input
-            type="text"
-            id="lugar"
-            name="lugar"
-            value={lugar}
-            onChange={(e) => setLugar(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="descripcion">Descripción:</label>
-          <textarea
-            id="descripcion"
-            name="descripcion"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            rows="4"
-            required
-          />
-        </div>
-        <button type="submit" className="submit-button">Añadir Lugar</button>
+    <div>
+      <h1>Registro de Salas Comunes</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Añade lugar:</label>
+        <input
+          type="text"
+          value={lugar}
+          onChange={(e) => setLugar(e.target.value)}
+          required
+        />
+        <button type="submit">Agregar</button>
       </form>
+      <h2>Salas Registradas</h2>
+      <ul>
+        {salas.map((sala) => (
+          <li key={sala.id}>{sala.lugar}</li>
+        ))}
+      </ul>
     </div>
   );
 };

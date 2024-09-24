@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 const Registro = () => {
   const [userData, setUserData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    departmentNumber: '',
+    nombre: '',
+    correo: '',
+    telefono: '',
+    depto: '',
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -14,15 +15,15 @@ const Registro = () => {
   const handleChange = (e) => {
     setUserData({
       ...userData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value, // Cambiado a e.target.name
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Validación simple de campos vacíos
-    if (!userData.fullName || !userData.email || !userData.phone || !userData.departmentNumber) {
+    if (!userData.nombre || !userData.correo || !userData.telefono || !userData.depto) {
       setError('Por favor, complete todos los campos.');
       return;
     }
@@ -40,60 +41,28 @@ const Registro = () => {
   };
 
   return (
-    <div className="form-container">
-      <h1>Registro de Usuario</h1>
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
+    <div>
+      <h2>Registro de Usuario</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {success && <p style={{ color: 'green' }}>{success}</p>}
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="fullName">Nombre completo:</label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            value={userData.fullName}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Nombre:</label>
+          <input type="text" name="nombre" value={userData.nombre} onChange={handleChange} required />
         </div>
-
-        <div className="form-group">
-          <label htmlFor="email">Correo electrónico:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={userData.email}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Correo electrónico:</label>
+          <input type="email" name="correo" value={userData.correo} onChange={handleChange} required />
         </div>
-
-        <div className="form-group">
-          <label htmlFor="phone">Teléfono:</label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            value={userData.phone}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Teléfono:</label>
+          <input type="tel" name="telefono" value={userData.telefono} onChange={handleChange} required />
         </div>
-
-        <div className="form-group">
-          <label htmlFor="departmentNumber">Número de departamento:</label>
-          <input
-            type="text"
-            id="departmentNumber"
-            name="departmentNumber"
-            value={userData.departmentNumber}
-            onChange={handleChange}
-            required
-          />
+        <div>
+          <label>Número de departamento:</label>
+          <input type="text" name="depto" value={userData.depto} onChange={handleChange} required />
         </div>
-
-        <button type="submit" className="submit-button">Registrarse</button>
+        <button type="submit">Continuar</button>
       </form>
     </div>
   );
